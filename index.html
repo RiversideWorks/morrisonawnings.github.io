@@ -100,7 +100,7 @@
             height: 100vh;
             min-height: 650px;
             overflow: hidden;
-            padding-top: 90px; /* Accounts for absolute header */
+            padding-top: 90px;
         }
 
         /* Slideshow Track / Wrapper */
@@ -115,30 +115,30 @@
         .hero-slide {
             position: relative;
             height: 100%;
-            flex: 1; /* Equal initial distribution */
+            flex: 0.6; /* Closed panels are kept narrow */
             overflow: hidden;
             transition: flex 0.8s cubic-bezier(0.25, 1, 0.5, 1);
             background-size: cover;
             background-position: center;
         }
 
-        /* Active slide expands wide */
+        /* Active slide expands wide to highlight main content */
         .hero-slide.active {
-            flex: 4; /* Takes up majority of the screen space */
+            flex: 6; 
         }
 
         /* Background Images for Each Slide Panel */
         .hero-slide:nth-child(1) {
-            background-image: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop');
+            background-image: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1400&auto=format&fit=crop');
         }
         .hero-slide:nth-child(2) {
-            background-image: url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=1200&auto=format&fit=crop');
+            background-image: url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=1400&auto=format&fit=crop');
         }
         .hero-slide:nth-child(3) {
-            background-image: url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1200&auto=format&fit=crop');
+            background-image: url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1400&auto=format&fit=crop');
         }
         .hero-slide:nth-child(4) {
-            background-image: url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1200&auto=format&fit=crop');
+            background-image: url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1400&auto=format&fit=crop');
         }
 
         /* Darkening overlay for active slide text contrast */
@@ -146,16 +146,16 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.1) 60%);
-            opacity: 0.3;
+            background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.1) 60%);
+            opacity: 0.2;
             transition: opacity 0.5s ease;
         }
 
         .hero-slide.active::after {
-            opacity: 0.6;
+            opacity: 0.5;
         }
 
-        /* Content inside slides (Only visible/pop-up when active) */
+        /* Content inside slides */
         .slide-content {
             position: absolute;
             bottom: 60px;
@@ -163,16 +163,43 @@
             z-index: 10;
             color: #ffffff;
             opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease 0.3s, transform 0.6s ease 0.3s;
+            transform: translateY(30px);
             pointer-events: none;
             max-width: 600px;
         }
 
+        /* Trigger text animation only when slide is active */
         .hero-slide.active .slide-content {
-            opacity: 1;
-            transform: translateY(0);
             pointer-events: auto;
+            animation: textSequence 3.5s ease forwards;
+        }
+
+        /* Keyframes enforcing the exact timing requested:
+           - Opens slide (0s -> 0.8s)
+           - Waits 0.5s, then text slides up and stays visible for 1.5s (0.5s to 2.5s)
+           - Slides down and fades out before the next panel transition (2.5s -> 3.2s)
+        */
+        @keyframes textSequence {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            15% { /* Appears ~0.5s after panel expands */
+                opacity: 1;
+                transform: translateY(0);
+            }
+            75% { /* Holds visible for 1.5s */
+                opacity: 1;
+                transform: translateY(0);
+            }
+            95% { /* Slides down and exits before switch */
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
         }
 
         .slide-content h2 {
@@ -198,7 +225,7 @@
                 padding: 15px 20px;
             }
             .nav-links {
-                display: none; /* Can be expanded later for mobile hamburger */
+                display: none;
             }
             .slide-content {
                 bottom: 30px;
@@ -250,9 +277,6 @@
             </div>
 
             <!-- Slide 3: Parasols -->
-            <div class="slide-content">
-                <!-- Slide 3: Parasols -->
-            </div>
             <div class="hero-slide">
                 <div class="slide-content">
                     <h2>Parasols</h2>
@@ -275,20 +299,14 @@
         document.addEventListener("DOMContentLoaded", function() {
             const slides = document.querySelectorAll(".hero-slide");
             let currentSlide = 0;
-            const intervalTime = 1500; // 1.5 seconds per slide
+            const intervalTime = 4000; // Total duration per slide loop
 
             function nextSlide() {
-                // Remove active class from current slide
                 slides[currentSlide].classList.remove("active");
-                
-                // Move to the next slide index (loop back to 0 if at the end)
                 currentSlide = (currentSlide + 1) % slides.length;
-                
-                // Add active class to the new slide
                 slides[currentSlide].classList.add("active");
             }
 
-            // Start the automatic interval timer
             setInterval(nextSlide, intervalTime);
         });
     </script>
