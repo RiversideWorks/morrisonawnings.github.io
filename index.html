@@ -115,16 +115,16 @@
         .hero-slide {
             position: relative;
             height: 100%;
-            flex: 0.6; /* Closed panels are kept narrow */
+            flex: 1; /* Default compact width for inactive panels */
             overflow: hidden;
-            transition: flex 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+            transition: flex 1s cubic-bezier(0.25, 1, 0.5, 1);
             background-size: cover;
             background-position: center;
         }
 
-        /* Active slide expands wide to highlight main content */
+        /* Active slide expands wide to take over main viewport space */
         .hero-slide.active {
-            flex: 6; 
+            flex: 5.5; 
         }
 
         /* Background Images for Each Slide Panel */
@@ -141,18 +141,18 @@
             background-image: url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1400&auto=format&fit=crop');
         }
 
-        /* Darkening overlay for active slide text contrast */
+        /* Gradient Overlay for Text Readability */
         .hero-slide::after {
             content: '';
             position: absolute;
             inset: 0;
             background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.1) 60%);
             opacity: 0.2;
-            transition: opacity 0.5s ease;
+            transition: opacity 0.8s ease;
         }
 
         .hero-slide.active::after {
-            opacity: 0.5;
+            opacity: 0.55;
         }
 
         /* Content inside slides */
@@ -163,48 +163,43 @@
             z-index: 10;
             color: #ffffff;
             opacity: 0;
-            transform: translateY(30px);
+            transform: translateY(35px);
             pointer-events: none;
-            max-width: 600px;
+            max-width: 550px;
         }
 
-        /* Trigger text animation only when slide is active */
+        /* Trigger text slide-up / slide-down sequence when active */
         .hero-slide.active .slide-content {
             pointer-events: auto;
-            animation: textSequence 3.5s ease forwards;
+            animation: textMotionSequence 4s cubic-bezier(0.25, 1, 0.5, 1) forwards;
         }
 
-        /* Keyframes enforcing the exact timing requested:
-           - Opens slide (0s -> 0.8s)
-           - Waits 0.5s, then text slides up and stays visible for 1.5s (0.5s to 2.5s)
-           - Slides down and fades out before the next panel transition (2.5s -> 3.2s)
-        */
-        @keyframes textSequence {
+        @keyframes textMotionSequence {
             0% {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(35px);
             }
-            15% { /* Appears ~0.5s after panel expands */
+            20% { /* Smoothly slides up into place shortly after panel expands */
                 opacity: 1;
                 transform: translateY(0);
             }
-            75% { /* Holds visible for 1.5s */
+            75% { /* Holds steady and fully visible */
                 opacity: 1;
                 transform: translateY(0);
             }
-            95% { /* Slides down and exits before switch */
+            95% { /* Slides back down and fades out cleanly before slide transition */
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(25px);
             }
             100% {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(25px);
             }
         }
 
         .slide-content h2 {
             font-family: 'Playfair Display', serif;
-            font-size: 56px;
+            font-size: 52px;
             font-weight: 400;
             letter-spacing: 2px;
             text-transform: uppercase;
@@ -233,7 +228,7 @@
                 right: 20px;
             }
             .slide-content h2 {
-                font-size: 36px;
+                font-size: 34px;
             }
         }
     </style>
@@ -299,7 +294,7 @@
         document.addEventListener("DOMContentLoaded", function() {
             const slides = document.querySelectorAll(".hero-slide");
             let currentSlide = 0;
-            const intervalTime = 4000; // Total duration per slide loop
+            const intervalTime = 4500; // Synchronized loop duration
 
             function nextSlide() {
                 slides[currentSlide].classList.remove("active");
