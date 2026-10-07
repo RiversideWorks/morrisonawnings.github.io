@@ -109,22 +109,25 @@
             width: 100%;
             height: 100%;
             display: flex;
+            gap: 10px; /* 10px white space between every slide */
+            padding: 0 10px;
+            background-color: #ffffff;
         }
 
         /* Individual Vertical Slide Panel */
         .hero-slide {
             position: relative;
             height: 100%;
-            flex: 1; /* Default compact width for inactive panels */
+            flex: 0.45; /* Slimmer closed slides */
             overflow: hidden;
-            transition: flex 1s cubic-bezier(0.25, 1, 0.5, 1);
+            transition: flex 0.8s cubic-bezier(0.25, 1, 0.5, 1);
             background-size: cover;
             background-position: center;
         }
 
-        /* Active slide expands wide to take over main viewport space */
+        /* Active expanded slide */
         .hero-slide.active {
-            flex: 5.5; 
+            flex: 8; 
         }
 
         /* Background Images for Each Slide Panel */
@@ -163,37 +166,43 @@
             z-index: 10;
             color: #ffffff;
             opacity: 0;
-            transform: translateY(35px);
+            transform: translateY(30px);
+            filter: blur(6px);
             pointer-events: none;
             max-width: 550px;
         }
 
-        /* Trigger text slide-up / slide-down sequence when active */
+        /* Trigger blur-to-clear & slide-up/down animation sequence when active */
         .hero-slide.active .slide-content {
             pointer-events: auto;
-            animation: textMotionSequence 4s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            animation: textBlurSequence 4s cubic-bezier(0.25, 1, 0.5, 1) forwards;
         }
 
-        @keyframes textMotionSequence {
+        @keyframes textBlurSequence {
             0% {
                 opacity: 0;
-                transform: translateY(35px);
+                transform: translateY(30px);
+                filter: blur(6px);
             }
-            20% { /* Smoothly slides up into place shortly after panel expands */
+            25% { /* Slides up and sharpens into focus after 1s delay */
                 opacity: 1;
                 transform: translateY(0);
+                filter: blur(0px);
             }
-            75% { /* Holds steady and fully visible */
+            65% { /* Holds steady for 1.5s */
                 opacity: 1;
                 transform: translateY(0);
+                filter: blur(0px);
             }
-            95% { /* Slides back down and fades out cleanly before slide transition */
+            85% { /* Disappears completely before slide closes */
                 opacity: 0;
-                transform: translateY(25px);
+                transform: translateY(15px);
+                filter: blur(4px);
             }
             100% {
                 opacity: 0;
-                transform: translateY(25px);
+                transform: translateY(15px);
+                filter: blur(6px);
             }
         }
 
@@ -289,12 +298,14 @@
         </div>
     </section>
 
-    <!-- Lightweight Script for Automatic Slideshow Control -->
+    <!-- Precise Timing Control Script -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const slides = document.querySelectorAll(".hero-slide");
             let currentSlide = 0;
-            const intervalTime = 4500; // Synchronized loop duration
+            
+            // Total duration per slide loop matches the CSS animation timing + 0.5s pause before closing
+            const slideDuration = 4000; 
 
             function nextSlide() {
                 slides[currentSlide].classList.remove("active");
@@ -302,7 +313,7 @@
                 slides[currentSlide].classList.add("active");
             }
 
-            setInterval(nextSlide, intervalTime);
+            setInterval(nextSlide, slideDuration);
         });
     </script>
 
