@@ -140,8 +140,8 @@
             width: 100%;
             height: 100%;
             display: flex;
-            gap: 10px; /* 10px white space between every slide */
-            padding: 0 10px 10px 10px;
+            gap: 4px; /* Reduced white gap to 4px */
+            padding: 0 4px 4px 4px;
             background-color: #ffffff;
         }
 
@@ -149,16 +149,16 @@
         .hero-slide {
             position: relative;
             height: 100%;
-            flex: 0.45; /* Slimmer closed slides */
+            flex: 0.4; /* Slimmer closed slides */
             overflow: hidden;
-            transition: flex 0.9s cubic-bezier(0.25, 1, 0.5, 1);
+            transition: flex 0.7s cubic-bezier(0.25, 1, 0.5, 1);
             background-size: cover;
             background-position: center;
         }
 
         /* Active expanded slide */
         .hero-slide.active {
-            flex: 8; 
+            flex: 8.5; 
         }
 
         /* Background Images for Each Slide Panel */
@@ -182,7 +182,7 @@
             inset: 0;
             background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.1) 60%);
             opacity: 0.2;
-            transition: opacity 0.8s ease;
+            transition: opacity 0.6s ease;
         }
 
         .hero-slide.active::after {
@@ -200,46 +200,47 @@
             max-width: 550px;
         }
 
-        /* Staggered Element Animations (triggered only on active slide) */
+        /* Staggered Element Animations: 
+           Total duration: 4.5s
+           - 0s to 0.7s: Slide opens immediately
+           - 0.7s to 1.2s: Text immediately slides up and clears from blur
+           - 1.2s to 4.2s: Stays visible for exactly 3 seconds
+           - 4.2s to 4.5s: Text disappears instantly, triggering immediate close
+        */
         .hero-slide.active .slide-content h2 {
-            animation: textRevealSequence 4s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            animation: textRevealSequence 4.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
         }
 
         .hero-slide.active .slide-content p {
-            animation: textRevealSequence 4s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-            animation-delay: 0.15s;
+            animation: textRevealSequence 4.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            animation-delay: 0.1s; /* Subtle stagger for paragraph */
         }
 
         @keyframes textRevealSequence {
             0% {
                 opacity: 0;
-                transform: translateY(25px);
-                filter: blur(6px);
+                transform: translateY(20px);
+                filter: blur(5px);
             }
-            30% {
-                opacity: 0;
-                transform: translateY(25px);
-                filter: blur(6px);
-            }
-            45% {
-                opacity: 1;
-                transform: translateY(0);
-                filter: blur(0px);
-            }
-            82% {
-                opacity: 1;
-                transform: translateY(0);
-                filter: blur(0px);
-            }
-            92% {
-                opacity: 0;
-                transform: translateY(10px);
+            15% { /* Text appears immediately as slide opens */
+                opacity: 0.2;
+                transform: translateY(15px);
                 filter: blur(4px);
             }
-            100% {
+            25% { /* Fully clear and in place */
+                opacity: 1;
+                transform: translateY(0);
+                filter: blur(0px);
+            }
+            92% { /* Stays fully visible for ~3 seconds, then starts vanishing */
+                opacity: 1;
+                transform: translateY(0);
+                filter: blur(0px);
+            }
+            100% { /* Completely gone; slide closes instantly */
                 opacity: 0;
                 transform: translateY(10px);
-                filter: blur(6px);
+                filter: blur(5px);
             }
         }
 
@@ -332,11 +333,33 @@
                 font-size: 16px;
             }
 
-            /* Adjust slider height and text position for mobile screens */
+            /* Mobile Carousel Mode: Hide accordion behavior, show one full-width slide at a time */
             .hero-section {
                 height: calc(100vh - 70px);
                 min-height: 500px;
                 padding-top: 70px;
+            }
+
+            .hero-slides-wrapper {
+                padding: 0;
+                gap: 0;
+            }
+
+            .hero-slide {
+                position: absolute;
+                inset: 0;
+                flex: none;
+                width: 100%;
+                height: 100%;
+                opacity: 0;
+                visibility: hidden;
+                transition: opacity 0.6s ease;
+            }
+
+            .hero-slide.active {
+                flex: none;
+                opacity: 1;
+                visibility: visible;
             }
 
             .slide-content {
@@ -422,10 +445,10 @@
     <!-- Script for Slideshow Rotation & Mobile Menu Toggle -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // Slideshow Logic
+            // Slideshow Logic matched precisely with text visibility duration (4500ms)
             const slides = document.querySelectorAll(".hero-slide");
             let currentSlide = 0;
-            const slideDuration = 4200; 
+            const slideDuration = 4500; 
 
             function nextSlide() {
                 slides[currentSlide].classList.remove("active");
