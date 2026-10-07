@@ -1,1 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Morrison Awnings - Home</title>
+    <!-- Google Fonts for Luxury Serif & Clean Sans-Serif -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        /* CSS Reset & Base Styles */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
+        body {
+            font-family: 'Montserrat', sans-serif, system-ui, -apple-system;
+            background-color: #ffffff;
+            color: #111111;
+            overflow-x: hidden;
+        }
+
+        /* Navigation Bar */
+        header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            padding: 25px 50px;
+            z-index: 100;
+            background: #ffffff;
+        }
+
+        /* Navigation Links (Left side of grid) */
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+            justify-self: start;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #111111;
+            font-size: 13px;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            transition: opacity 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.6;
+        }
+
+        /* Center Aligned Logo */
+        .logo-container {
+            text-align: center;
+            cursor: pointer;
+            justify-self: center;
+        }
+
+        .logo-container h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            letter-spacing: 4px;
+            font-weight: 500;
+            text-transform: uppercase;
+            line-height: 1.1;
+        }
+
+        .logo-container span {
+            font-size: 9px;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            color: #555555;
+        }
+
+        /* Contact Button (Right side of grid) */
+        .header-right {
+            justify-self: end;
+            display: flex;
+            align-items: center;
+        }
+
+        .contact-btn {
+            background-color: #111111;
+            color: #ffffff;
+            padding: 10px 22px;
+            text-decoration: none;
+            font-size: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: background-color 0.2s ease;
+        }
+
+        .contact-btn:hover {
+            background-color: #333333;
+        }
+
+        /* Hamburger Menu Button (Hidden on Desktop) */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 24px;
+            height: 18px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            z-index: 102;
+        }
+
+        .hamburger span {
+            width: 100%;
+            height: 2px;
+            background-color: #111111;
+            transition: all 0.3s ease;
+        }
+
+        /* Hero Section Container */
+        .hero-section {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            min-height: 650px;
+            overflow: hidden;
+            padding-top: 90px;
+        }
+
+        /* Slideshow Track / Wrapper */
+        .hero-slides-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            gap: 4px;
+            padding: 0 4px 4px 4px;
+            background-color: #ffffff;
+        }
+
+        /* Individual Vertical Slide Panel */
+        .hero-slide {
+            position: relative;
+            height: 100%;
+            flex: 0.4;
+            overflow: hidden;
+            transition: flex 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Active expanded slide */
+        .hero-slide.active {
+            flex: 8.5; 
+        }
+
+        /* Background Images for Each Slide Panel */
+        .hero-slide:nth-child(1) {
+            background-image: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1400&auto=format&fit=crop');
+        }
+        .hero-slide:nth-child(2) {
+            background-image: url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=1400&auto=format&fit=crop');
+        }
+        .hero-slide:nth-child(3) {
+            background-image: url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1400&auto=format&fit=crop');
+        }
+        .hero-slide:nth-child(4) {
+            background-image: url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1400&auto=format&fit=crop');
+        }
+
+        /* Gradient Overlay for Text Readability */
+        .hero-slide::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.1) 60%);
+            opacity: 0.2;
+            transition: opacity 0.6s ease;
+        }
+
+        .hero-slide.active::after {
+            opacity: 0.55;
+        }
+
+        /* Content inside slides container */
+        .slide-content {
+            position: absolute;
+            bottom: 60px;
+            left: 60px;
+            z-index: 10;
+            color: #ffffff;
+            pointer-events: none;
+            max-width: 550px;
+        }
+
+        .hero-slide.active .slide-content h2 {
+            animation: textRevealSequence 4.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+
+        .hero-slide.active .slide-content p {
+            animation: textRevealSequence 4.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            animation-delay: 0.1s;
+        }
+
+        @keyframes textRevealSequence {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+                filter: blur(5px);
+            }
+            15% {
+                opacity: 0.2;
+                transform: translateY(15px);
+                filter: blur(4px);
+            }
+            25% {
+                opacity: 1;
+                transform: translateY(0);
+                filter: blur(0px);
+            }
+            92% {
+                opacity: 1;
+                transform: translateY(0);
+                filter: blur(0px);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(10px);
+                filter: blur(5px);
+            }
+        }
+
+        .slide-content h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 52px;
+            font-weight: 400;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            opacity: 0;
+        }
+
+        .slide-content p {
+            font-size: 15px;
+            font-weight: 300;
+            line-height: 1.5;
+            letter-spacing: 0.5px;
+            color: #f1f1f1;
+            opacity: 0;
+        }
+
+        /* ==========================================
+           SECTION 2: INTRO & CTA STATEMENT
+           ========================================== */
+        .intro-section {
+            position: relative;
+            background-color: #ffffff;
+            color: #111111;
+            padding: 140px 20px;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .intro-container {
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        .intro-container h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 54px;
+            font-weight: 400;
+            line-height: 1.2;
+            letter-spacing: -0.5px;
+            margin-bottom: 30px;
+            color: #111111;
+        }
+
+        .intro-container p {
+            font-size: 17px;
+            font-weight: 300;
+            line-height: 1.6;
+            color: #444444;
+            max-width: 720px;
+            margin: 0 auto 45px auto;
+            letter-spacing: 0.2px;
+        }
+
+        /* Exact Reference Button Style */
+        .pill-cta {
+            display: inline-flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #000000;
+            color: #ffffff;
+            padding: 8px 8px 8px 24px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 400;
+            letter-spacing: 0.3px;
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        .pill-cta .arrow-icon {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 36px;
+            height: 36px;
+            background-color: #f4d03f; /* Reference yellow color */
+            color: #111111;
+            border-radius: 50%;
+            margin-left: 16px;
+            transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.3s ease;
+        }
+
+        .pill-cta:hover {
+            background-color: #1a1a1a;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .pill-cta:hover .arrow-icon {
+            transform: translateX(4px);
+            background-color: #f1c40f;
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 1024px) {
+            header {
+                padding: 20px 30px;
+            }
+            .slide-content h2 {
+                font-size: 40px;
+            }
+            .intro-container h2 {
+                font-size: 42px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 15px 20px;
+            }
+
+            .logo-container {
+                justify-self: start;
+                text-align: left;
+            }
+
+            .logo-container h1 {
+                font-size: 20px;
+                letter-spacing: 3px;
+            }
+
+            .logo-container span {
+                font-size: 8px;
+                letter-spacing: 4px;
+            }
+
+            .contact-btn {
+                display: none;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 75%;
+                max-width: 300px;
+                height: 100vh;
+                background-color: #ffffff;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 25px;
+                box-shadow: -5px 0 25px rgba(0,0,0,0.1);
+                transition: right 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+                z-index: 101;
+            }
+
+            .nav-links.open {
+                right: 0;
+            }
+
+            .nav-links a {
+                font-size: 16px;
+            }
+
+            /* Mobile Carousel Mode for Hero */
+            .hero-section {
+                height: calc(100vh - 70px);
+                min-height: 500px;
+                padding-top: 70px;
+            }
+
+            .hero-slides-wrapper {
+                padding: 0;
+                gap: 0;
+            }
+
+            .hero-slide {
+                position: absolute;
+                inset: 0;
+                flex: none;
+                width: 100%;
+                height: 100%;
+                opacity: 0;
+                visibility: hidden;
+                transition: opacity 0.6s ease;
+            }
+
+            .hero-slide.active {
+                flex: none;
+                opacity: 1;
+                visibility: visible;
+            }
+
+            .slide-content {
+                bottom: 30px;
+                left: 20px;
+                right: 20px;
+            }
+
+            .slide-content h2 {
+                font-size: 28px;
+            }
+
+            .slide-content p {
+                font-size: 13px;
+            }
+
+            /* Intro Section Mobile Adjustments */
+            .intro-section {
+                padding: 90px 20px;
+            }
+
+            .intro-container h2 {
+                font-size: 32px;
+            }
+
+            .intro-container p {
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header / Navigation -->
+    <header>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Products</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Projects</a></li>
+        </ul>
+
+        <div class="logo-container">
+            <h1>Morrison</h1>
+            <span>Awnings</span>
+        </div>
+
+        <div class="header-right">
+            <a href="#" class="contact-btn">Contact Us</a>
+            <!-- Mobile Hamburger Toggle -->
+            <button class="hamburger" id="hamburgerBtn" aria-label="Toggle navigation menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Section with Automatic Slideshow Panels -->
+    <section class="hero-section">
+        <div class="hero-slides-wrapper" id="heroSlides">
+            <!-- Slide 1: Awnings -->
+            <div class="hero-slide active">
+                <div class="slide-content">
+                    <h2>Awnings</h2>
+                    <p>Designed To Enhance The Appearance Of Your Storefront While Providing Practical Benefits Such As Weather Protection And Increased Visibility.</p>
+                </div>
+            </div>
+
+            <!-- Slide 2: Canopies -->
+            <div class="hero-slide">
+                <div class="slide-content">
+                    <h2>Canopies</h2>
+                    <p>Bespoke Canopy Solutions For Retail, Hospitality & Corporate Environments Tailored To Your Exterior Architecture.</p>
+                </div>
+            </div>
+
+            <!-- Slide 3: Parasols -->
+            <div class="hero-slide">
+                <div class="slide-content">
+                    <h2>Parasols</h2>
+                    <p>Modern And Timeless Parasols That Fit Any Balcony, Terrace Or Garden. Protect Yourself From The Rays Of The Sun And Spend Time In The Shade.</p>
+                </div>
+            </div>
+
+            <!-- Slide 4: Custom Projects -->
+            <div class="hero-slide">
+                <div class="slide-content">
+                    <h2>Custom Solutions</h2>
+                    <p>Engineered to exact architectural measurements to deliver striking visual distinction and long-lasting outdoor comfort.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: Intro & Brand Statement -->
+    <section class="intro-section">
+        <div class="intro-container">
+            <h2>Designed with purpose. Manufactured with precision.</h2>
+            <p>Bespoke commercial and residential awnings and canopies — hand-crafted and made in Britain by a specialist team with over 60 years of collective industry experience.</p>
+            <a href="#" class="pill-cta">
+                Find out more
+                <span class="arrow-icon">→</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Script for Slideshow Rotation & Mobile Menu Toggle -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Slideshow Logic matched with text duration
+            const slides = document.querySelectorAll(".hero-slide");
+            let currentSlide = 0;
+            const slideDuration = 4500; 
+
+            function nextSlide() {
+                slides[currentSlide].classList.remove("active");
+                currentSlide = (currentSlide + 1) % slides.length;
+                slides[currentSlide].classList.add("active");
+            }
+
+            setInterval(nextSlide, slideDuration);
+
+            // Mobile Menu Toggle Logic
+            const hamburgerBtn = document.getElementById("hamburgerBtn");
+            const navLinks = document.getElementById("navLinks");
+
+            hamburgerBtn.addEventListener("click", function() {
+                navLinks.classList.toggle("open");
+            });
+
+            navLinks.querySelectorAll("a").forEach(link => {
+                link.addEventListener("click", () => {
+                    navLinks.classList.remove("open");
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
