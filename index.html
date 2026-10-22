@@ -24,6 +24,7 @@
       --color-white: #FFFFFF;
       --font-anton: 'Anton', sans-serif;
       --font-poppins: 'Poppins', sans-serif;
+      --item-height: 64px; /* Default height for item alignment */
     }
 
     body {
@@ -31,6 +32,7 @@
       color: var(--color-dark);
       background-color: var(--color-white);
       overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
     }
 
     /* HEADER / NAVBAR */
@@ -67,14 +69,19 @@
       font-size: 14px;
       font-weight: 500;
       cursor: pointer;
-      text-decoration: none;
-      transition: opacity 0.3s ease;
+      text-decoration: inline-block;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .btn-red:hover {
-      opacity: 0.9;
+      background-color: #d13432;
+      transform: translateY(-1px);
     }
 
+    /* HAMBURGER MENU - 3 lines (short top & bottom, longer middle, rounded edges) */
     .menu-icon-btn {
       width: 44px;
       height: 44px;
@@ -85,16 +92,29 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      gap: 5px;
+      gap: 4px;
       cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .menu-icon-btn:hover {
+      background-color: #d13432;
     }
 
     .menu-icon-btn span {
       display: block;
-      width: 18px;
-      height: 2px;
+      height: 2.5px;
       background-color: var(--color-white);
-      border-radius: 2px;
+      border-radius: 4px;
+    }
+
+    .menu-icon-btn span:nth-child(1),
+    .menu-icon-btn span:nth-child(3) {
+      width: 12px;
+    }
+
+    .menu-icon-btn span:nth-child(2) {
+      width: 18px;
     }
 
     /* HERO CONTAINER */
@@ -105,11 +125,13 @@
       padding: 40px 80px 80px 80px;
       min-height: calc(100vh - 120px);
       gap: 60px;
+      background: transparent;
     }
 
     /* LEFT CONTENT */
     .hero-left {
       max-width: 550px;
+      flex: 1;
     }
 
     .hero-title {
@@ -137,81 +159,104 @@
       position: relative;
       display: flex;
       align-items: center;
-      padding-left: 50px;
+      padding-left: 45px;
+      background: transparent;
+      flex: 1;
+      justify-content: flex-start;
     }
 
-    /* BLINKING ARROW */
-    .blinking-arrow {
+    /* STATIC RED ARROW */
+    .static-arrow {
       position: absolute;
       left: 0;
       top: 50%;
       transform: translateY(-50%);
       width: 0;
       height: 0;
-      border-top: 12px solid transparent;
-      border-bottom: 12px solid transparent;
-      border-left: 20px solid var(--color-red);
-      animation: blink 0.5s infinite alternate ease-in-out;
+      border-top: 10px solid transparent;
+      border-bottom: 10px solid transparent;
+      border-left: 18px solid var(--color-red);
       z-index: 10;
     }
 
-    @keyframes blink {
-      0% { opacity: 1; }
-      100% { opacity: 0; }
-    }
-
-    /* VERTICAL TEXT SLIDER */
+    /* VIEWPORT - Clean blend, no background box effect */
     .text-viewport {
-      height: 310px; /* Displays 5 lines (62px each) */
+      height: calc(var(--item-height) * 5); /* 5 items visible */
       overflow: hidden;
       position: relative;
+      background: transparent;
     }
 
     .text-list {
       display: flex;
       flex-direction: column;
       list-style: none;
-      transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+      background: transparent;
+      will-change: transform;
     }
 
     .text-item {
-      height: 62px;
+      height: var(--item-height);
       display: flex;
       align-items: center;
       font-family: var(--font-poppins);
-      font-size: 38px;
-      font-weight: 700;
+      font-size: 40px;
+      font-weight: 500;
       white-space: nowrap;
-      transition: opacity 0.6s ease, filter 0.6s ease, color 0.6s ease;
-      opacity: 0.25;
-      filter: blur(2.5px);
       color: var(--color-dark);
+      background: transparent;
+      transition: opacity 0.5s ease, filter 0.5s ease, font-weight 0.5s ease;
+      opacity: 0.25;
+      filter: blur(2px);
     }
 
-    /* Active centered text styling */
+    /* Active focused center line */
     .text-item.active {
       opacity: 1;
       filter: blur(0px);
-      color: var(--color-dark);
+      font-weight: 600;
     }
 
     /* RESPONSIVE DESIGN */
-    @media (max-width: 1024px) {
-      .header, .hero { padding: 30px 40px; }
-      .hero-title { font-size: 110px; }
-      .text-item { font-size: 30px; height: 50px; }
-      .text-viewport { height: 250px; }
+    @media (max-width: 1200px) {
+      .header, .hero { padding: 30px 50px; }
+      .hero-title { font-size: 130px; }
+      :root { --item-height: 56px; }
+      .text-item { font-size: 34px; }
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 992px) {
       .hero {
         flex-direction: column;
         align-items: flex-start;
-        gap: 40px;
+        gap: 50px;
+        padding-top: 20px;
       }
-      .hero-title { font-size: 80px; }
-      .text-viewport { height: 210px; }
-      .text-item { font-size: 24px; height: 42px; }
+      .hero-title { font-size: 110px; }
+      .hero-left, .hero-right { max-width: 100%; width: 100%; }
+      .hero-right { padding-left: 40px; }
+    }
+
+    @media (max-width: 768px) {
+      .header { padding: 20px 24px; }
+      .hero { padding: 20px 24px 60px 24px; }
+      .hero-title { font-size: 80px; margin-bottom: 20px; }
+      .hero-description { font-size: 14px; margin-bottom: 28px; }
+      :root { --item-height: 48px; }
+      .text-item { font-size: 26px; }
+      .static-arrow {
+        border-top-width: 8px;
+        border-bottom-width: 8px;
+        border-left-width: 14px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .brand-logo { font-size: 22px; }
+      .btn-red { padding: 10px 20px; font-size: 13px; }
+      .hero-title { font-size: 64px; }
+      :root { --item-height: 42px; }
+      .text-item { font-size: 22px; }
     }
   </style>
 </head>
@@ -223,6 +268,7 @@
     <div class="nav-actions">
       <a href="#chat" class="btn-red">Let's Chat</a>
       <button class="menu-icon-btn" aria-label="Toggle Menu">
+        <span></span>
         <span></span>
         <span></span>
       </button>
@@ -242,7 +288,7 @@
 
     <!-- RIGHT CONTENT ANIMATION -->
     <div class="hero-right">
-      <div class="blinking-arrow"></div>
+      <div class="static-arrow"></div>
       <div class="text-viewport">
         <ul class="text-list" id="rollingList">
           <li class="text-item">Shop Awnings</li>
@@ -250,25 +296,25 @@
           <li class="text-item active">Shop Awnings</li>
           <li class="text-item">Shop Awnings</li>
           <li class="text-item">Shop Awnings</li>
-          <li class="text-item">Shop Awnings</li>
-          <li class="text-item">Shop Awnings</li>
         </ul>
       </div>
     </div>
   </section>
 
-  <!-- ROLLING ANIMATION SCRIPT -->
+  <!-- SEAMLESS ROLLING ANIMATION SCRIPT -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const list = document.getElementById("rollingList");
-      const items = list.querySelectorAll(".text-item");
-      const itemHeight = 62; // Height matching CSS .text-item
-      let currentIndex = 0;
-      const totalItems = items.length - 4; // Buffer items for infinite scroll
+      let items = Array.from(list.querySelectorAll(".text-item"));
+      
+      // Dynamic item height recalculation for full responsiveness
+      function getItemHeight() {
+        return items[0].getBoundingClientRect().height;
+      }
 
-      function updateActiveState(index) {
-        items.forEach((item, i) => {
-          if (i === index + 2) {
+      function updateActiveClasses() {
+        items.forEach((item, index) => {
+          if (index === 2) {
             item.classList.add("active");
           } else {
             item.classList.remove("active");
@@ -276,23 +322,39 @@
         });
       }
 
-      setInterval(() => {
-        currentIndex++;
-        list.style.transition = "transform 0.6s cubic-bezier(0.65, 0, 0.35, 1)";
-        list.style.transform = `translateY(-${currentIndex * itemHeight}px)`;
+      function rollNext() {
+        const itemHeight = getItemHeight();
         
-        updateActiveState(currentIndex);
+        // Smooth transition slide up by 1 item height
+        list.style.transition = "transform 0.5s cubic-bezier(0.65, 0, 0.35, 1)";
+        list.style.transform = `translateY(-${itemHeight}px)`;
 
-        // Infinite seamless loop reset
-        if (currentIndex >= totalItems) {
-          setTimeout(() => {
-            list.style.transition = "none";
-            currentIndex = 0;
-            list.style.transform = `translateY(0px)`;
-            updateActiveState(currentIndex);
-          }, 600);
-        }
-      }, 1500);
+        // Update active blur state mid-animation for realism
+        if (items[3]) items[3].classList.add("active");
+        if (items[2]) items[2].classList.remove("active");
+
+        // After slide completes, reorganize DOM without transition (Zero glitch infinite loop)
+        setTimeout(() => {
+          list.style.transition = "none";
+          
+          // Move top item to bottom
+          const firstItem = items.shift();
+          list.appendChild(firstItem);
+          items.push(firstItem);
+
+          // Reset offset instantly
+          list.style.transform = "translateY(0px)";
+          
+          // Re-apply correct active class for position 3 (index 2)
+          updateActiveClasses();
+        }, 500);
+      }
+
+      // Initial active state setup
+      updateActiveClasses();
+
+      // Scroll interval set to every 2 seconds
+      setInterval(rollNext, 2000);
     });
   </script>
 
