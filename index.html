@@ -4,11 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Morrison - Hero Section</title>
-  
+
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 
   <style>
     /* CSS RESET & VARIABLES */
@@ -24,7 +24,8 @@
       --color-white: #FFFFFF;
       --font-anton: 'Anton', sans-serif;
       --font-poppins: 'Poppins', sans-serif;
-      --item-height: 64px; /* Default height for item alignment */
+      --desktop-item-height: 78px;
+      --mobile-item-height: 36px;
     }
 
     body {
@@ -35,155 +36,198 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* HEADER / NAVBAR */
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 40px 80px;
-      width: 100%;
+    /* MAIN CONTAINER (DESKTOP BASE) */
+    .hero-container {
+      position: relative;
+      width: 1990px;
+      height: 1072px;
+      margin: 0 auto;
+      background: var(--color-white);
+      overflow: hidden;
     }
 
+    /* GRID LINES (Desktop) */
+    .grid-line {
+      position: absolute;
+      width: 1072px;
+      height: 0px;
+      top: calc(50% - 536px);
+      border: 1px solid rgba(41, 41, 41, 0.15);
+      transform: rotate(90deg);
+      pointer-events: none;
+      z-index: 1;
+    }
+    .line-18 { left: 398px; }
+    .line-19 { left: 796px; }
+    .line-20 { left: 1194px; }
+    .line-21 { left: 1592px; }
+
+    /* LOGO */
     .brand-logo {
-      font-family: 'Playfair Display', serif, var(--font-poppins);
-      font-size: 28px;
-      font-weight: 700;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--color-dark);
-    }
-
-    .nav-actions {
+      position: absolute;
+      width: 216px;
+      height: 33px;
+      left: 50px;
+      top: 50px;
+      z-index: 10;
       display: flex;
       align-items: center;
-      gap: 16px;
+    }
+    .brand-logo img {
+      height: 33px;
+      width: auto;
+      object-fit: contain;
+      display: block;
     }
 
-    .btn-red {
-      background-color: var(--color-red);
-      color: var(--color-white);
+    /* HEADER BUTTONS (Desktop) */
+    .btn-chat-header {
+      position: absolute;
+      width: 112px;
+      height: 45px;
+      left: 1762px;
+      top: 50px;
+      background: var(--color-red);
+      border-radius: 15px;
       border: none;
-      padding: 12px 28px;
-      border-radius: 25px;
+      color: var(--color-white);
       font-family: var(--font-poppins);
+      font-weight: 400;
       font-size: 14px;
-      font-weight: 500;
+      line-height: 21px;
+      text-transform: capitalize;
       cursor: pointer;
-      text-decoration: inline-block;
-      transition: background-color 0.3s ease, transform 0.2s ease;
-      display: inline-flex;
+      display: flex;
       align-items: center;
       justify-content: center;
+      text-decoration: none;
+      z-index: 10;
+      transition: background-color 0.3s ease;
     }
-
-    .btn-red:hover {
+    .btn-chat-header:hover {
       background-color: #d13432;
-      transform: translateY(-1px);
     }
 
-    /* HAMBURGER MENU - 3 lines (short top & bottom, longer middle, rounded edges) */
     .menu-icon-btn {
-      width: 44px;
-      height: 44px;
-      background-color: var(--color-red);
-      border-radius: 50%;
+      position: absolute;
+      width: 46px;
+      height: 45px;
+      left: 1894px;
+      top: 50px;
+      background: var(--color-red);
+      border-radius: 15px;
       border: none;
+      cursor: pointer;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       gap: 4px;
-      cursor: pointer;
+      z-index: 10;
       transition: background-color 0.3s ease;
     }
-
     .menu-icon-btn:hover {
       background-color: #d13432;
     }
-
     .menu-icon-btn span {
       display: block;
-      height: 2.5px;
+      height: 3px;
       background-color: var(--color-white);
       border-radius: 4px;
     }
+    .menu-icon-btn span:nth-child(1) { width: 20px; }
+    .menu-icon-btn span:nth-child(2) { width: 12px; }
+    .menu-icon-btn span:nth-child(3) { width: 12px; }
 
-    .menu-icon-btn span:nth-child(1),
-    .menu-icon-btn span:nth-child(3) {
-      width: 12px;
-    }
-
-    .menu-icon-btn span:nth-child(2) {
-      width: 18px;
-    }
-
-    /* HERO CONTAINER */
-    .hero {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 40px 80px 80px 80px;
-      min-height: calc(100vh - 120px);
-      gap: 60px;
-      background: transparent;
-    }
-
-    /* LEFT CONTENT */
-    .hero-left {
-      max-width: 550px;
-      flex: 1;
-    }
-
+    /* HERO CONTENT LEFT (Desktop) */
     .hero-title {
+      position: absolute;
+      width: 671px;
+      height: 172px;
+      left: 260px;
+      top: 356px;
       font-family: var(--font-anton);
-      font-size: 160px;
-      line-height: 0.9;
-      color: var(--color-dark);
+      font-weight: 400;
+      font-size: 200px;
+      line-height: 301px;
       text-transform: uppercase;
-      letter-spacing: 2px;
-      margin-bottom: 30px;
+      color: var(--color-dark);
+      z-index: 5;
     }
 
     .hero-description {
+      position: absolute;
+      width: 918px;
+      height: 44px;
+      left: 267px;
+      top: 578px;
       font-family: var(--font-poppins);
-      font-size: 16px;
-      line-height: 1.6;
-      color: var(--color-dark);
       font-weight: 500;
-      margin-bottom: 36px;
-      max-width: 480px;
+      font-size: 20px;
+      line-height: 30px;
+      text-transform: capitalize;
+      color: var(--color-dark);
+      z-index: 5;
     }
 
-    /* RIGHT CONTENT - ROLLING TEXT */
-    .hero-right {
-      position: relative;
+    .hero-btn-bottom {
+      position: absolute;
+      width: 112px;
+      height: 45px;
+      left: 267px;
+      top: 672px;
+      background: var(--color-red);
+      border-radius: 15px;
+      border: none;
+      color: var(--color-white);
+      font-family: var(--font-poppins);
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 21px;
+      text-transform: capitalize;
+      cursor: pointer;
       display: flex;
       align-items: center;
-      padding-left: 45px;
-      background: transparent;
-      flex: 1;
-      justify-content: flex-start;
+      justify-content: center;
+      text-decoration: none;
+      z-index: 5;
+      transition: background-color 0.3s ease;
+    }
+    .hero-btn-bottom:hover {
+      background-color: #d13432;
     }
 
-    /* STATIC RED ARROW */
+    /* HERO CONTENT RIGHT / ROLLING ANIMATION (Desktop) */
+    .hero-right {
+      position: absolute;
+      width: 345px;
+      height: 340px;
+      left: 1385px;
+      top: calc(50% - 340px / 2);
+      z-index: 5;
+      display: flex;
+      align-items: center;
+    }
+
     .static-arrow {
       position: absolute;
-      left: 0;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 0;
-      height: 0;
-      border-top: 10px solid transparent;
-      border-bottom: 10px solid transparent;
-      border-left: 18px solid var(--color-red);
+      width: 40px;
+      height: 40px;
+      left: 0px;
+      top: calc(50% - 40px / 2);
+      background: var(--color-red);
+      transform: rotate(90deg);
+      clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
       z-index: 10;
     }
 
-    /* VIEWPORT - Clean blend, no background box effect */
     .text-viewport {
-      height: calc(var(--item-height) * 5); /* 5 items visible */
+      position: absolute;
+      left: 60px;
+      top: 0;
+      width: 285px;
+      height: calc(var(--desktop-item-height) * 5);
       overflow: hidden;
-      position: relative;
       background: transparent;
     }
 
@@ -196,97 +240,162 @@
     }
 
     .text-item {
-      height: var(--item-height);
+      height: var(--desktop-item-height);
       display: flex;
       align-items: center;
       font-family: var(--font-poppins);
-      font-size: 40px;
       font-weight: 500;
+      font-size: 40px;
+      line-height: 60px;
+      text-transform: capitalize;
       white-space: nowrap;
-      color: var(--color-dark);
+      color: rgba(41, 41, 41, 0.2);
       background: transparent;
-      transition: opacity 0.5s ease, filter 0.5s ease, font-weight 0.5s ease;
-      opacity: 0.25;
-      filter: blur(2px);
+      transition: color 0.5s ease;
     }
 
-    /* Active focused center line */
     .text-item.active {
-      opacity: 1;
-      filter: blur(0px);
-      font-weight: 600;
+      color: var(--color-dark);
     }
 
-    /* RESPONSIVE DESIGN */
-    @media (max-width: 1200px) {
-      .header, .hero { padding: 30px 50px; }
-      .hero-title { font-size: 130px; }
-      :root { --item-height: 56px; }
-      .text-item { font-size: 34px; }
-    }
 
-    @media (max-width: 992px) {
-      .hero {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 50px;
-        padding-top: 20px;
-      }
-      .hero-title { font-size: 110px; }
-      .hero-left, .hero-right { max-width: 100%; width: 100%; }
-      .hero-right { padding-left: 40px; }
-    }
-
+    /* ========================================================
+       MOBILE MEDIA QUERY (Matches iPhone 16/17 Pro Max design specs)
+       ======================================================== */
     @media (max-width: 768px) {
-      .header { padding: 20px 24px; }
-      .hero { padding: 20px 24px 60px 24px; }
-      .hero-title { font-size: 80px; margin-bottom: 20px; }
-      .hero-description { font-size: 14px; margin-bottom: 28px; }
-      :root { --item-height: 48px; }
-      .text-item { font-size: 26px; }
-      .static-arrow {
-        border-top-width: 8px;
-        border-bottom-width: 8px;
-        border-left-width: 14px;
+      .hero-container {
+        width: 100%;
+        max-width: 440px;
+        height: 956px;
+        margin: 0 auto;
+        position: relative;
+        overflow: hidden;
       }
-    }
 
-    @media (max-width: 480px) {
-      .brand-logo { font-size: 22px; }
-      .btn-red { padding: 10px 20px; font-size: 13px; }
-      .hero-title { font-size: 64px; }
-      :root { --item-height: 42px; }
-      .text-item { font-size: 22px; }
+      /* Hide Desktop Grid Lines */
+      .grid-line {
+        display: none;
+      }
+
+      /* Mobile Logo */
+      .brand-logo {
+        width: 216px;
+        height: 33px;
+        left: 30px;
+        top: 36px;
+      }
+
+      /* Mobile Header Buttons */
+      .btn-chat-header {
+        display: none; /* Mobile design relies on top right hamburger menu */
+      }
+
+      .menu-icon-btn {
+        width: 46px;
+        height: 45px;
+        left: 364px;
+        top: 30px;
+      }
+      .menu-icon-btn span:nth-child(1) { width: 17px; }
+      .menu-icon-btn span:nth-child(2) { width: 9px; }
+      .menu-icon-btn span:nth-child(3) { width: 9px; }
+
+      /* Mobile Hero Title ("Awnings") */
+      .hero-title {
+        width: 336px;
+        height: 86px;
+        left: 50%;
+        transform: translateX(-50%);
+        top: 175px;
+        font-size: 100px;
+        line-height: 151px;
+        text-align: left;
+      }
+
+      /* Mobile Description */
+      .hero-description {
+        width: 380px;
+        height: 22px;
+        left: 50%;
+        transform: translateX(-50%);
+        top: 292px;
+        font-size: 10px;
+        line-height: 15px;
+        text-align: center;
+      }
+
+      /* Hide Bottom Chat Button on Mobile if not in design spec */
+      .hero-btn-bottom {
+        display: none;
+      }
+
+      /* Mobile Hero Right / Rolling Animation */
+      .hero-right {
+        position: absolute;
+        width: 183px;
+        height: 156px;
+        left: 50%;
+        transform: translateX(-50%);
+        top: calc(50% - 156px / 2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .static-arrow {
+        width: 20px;
+        height: 20px;
+        left: 0px;
+        top: calc(50% - 20px / 2);
+      }
+
+      .text-viewport {
+        position: absolute;
+        left: 40px;
+        top: 0;
+        width: 143px;
+        height: calc(var(--mobile-item-height) * 5);
+      }
+
+      .text-item {
+        height: var(--mobile-item-height);
+        font-size: 20px;
+        line-height: 30px;
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- NAVBAR -->
-  <header class="header">
-    <div class="brand-logo">MORRISON</div>
-    <div class="nav-actions">
-      <a href="#chat" class="btn-red">Let's Chat</a>
-      <button class="menu-icon-btn" aria-label="Toggle Menu">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
-    </div>
-  </header>
+  <div class="hero-container">
+    
+    <!-- BACKGROUND GRID LINES (Desktop) -->
+    <div class="grid-line line-18"></div>
+    <div class="grid-line line-19"></div>
+    <div class="grid-line line-20"></div>
+    <div class="grid-line line-21"></div>
 
-  <!-- HERO SECTION -->
-  <section class="hero">
-    <!-- LEFT CONTENT -->
-    <div class="hero-left">
-      <h1 class="hero-title">AWNINGS</h1>
-      <p class="hero-description">
-        Designed To Enhance The Appearance Of Your Storefront While Providing Practical Benefits Such As Weather Protection And Increased Visibility.
-      </p>
-      <a href="#chat" class="btn-red">Let's Chat</a>
+    <!-- HEADER / NAVIGATION -->
+    <div class="brand-logo">
+      <img src="morrison.svg" alt="Morrison Logo">
     </div>
 
-    <!-- RIGHT CONTENT ANIMATION -->
+    <a href="#chat" class="btn-chat-header">Let’s Chat</a>
+    
+    <button class="menu-icon-btn" aria-label="Toggle Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <!-- LEFT HERO CONTENT -->
+    <h1 class="hero-title">Awnings</h1>
+    <p class="hero-description">
+      designed to enhance the appearance of your storefront while providing practical benefits.
+    </p>
+    <a href="#chat" class="hero-btn-bottom">Let’s Chat</a>
+
+    <!-- RIGHT HERO CONTENT - ROLLING ANIMATION -->
     <div class="hero-right">
       <div class="static-arrow"></div>
       <div class="text-viewport">
@@ -299,15 +408,15 @@
         </ul>
       </div>
     </div>
-  </section>
+
+  </div>
 
   <!-- SEAMLESS ROLLING ANIMATION SCRIPT -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const list = document.getElementById("rollingList");
       let items = Array.from(list.querySelectorAll(".text-item"));
-      
-      // Dynamic item height recalculation for full responsiveness
+
       function getItemHeight() {
         return items[0].getBoundingClientRect().height;
       }
@@ -324,36 +433,27 @@
 
       function rollNext() {
         const itemHeight = getItemHeight();
-        
-        // Smooth transition slide up by 1 item height
-        list.style.transition = "transform 0.5s cubic-bezier(0.65, 0, 0.35, 1)";
+
+        // Slide up smoothly every 2 seconds
+        list.style.transition = "transform 0.6s cubic-bezier(0.65, 0, 0.35, 1)";
         list.style.transform = `translateY(-${itemHeight}px)`;
 
-        // Update active blur state mid-animation for realism
         if (items[3]) items[3].classList.add("active");
         if (items[2]) items[2].classList.remove("active");
 
-        // After slide completes, reorganize DOM without transition (Zero glitch infinite loop)
         setTimeout(() => {
           list.style.transition = "none";
           
-          // Move top item to bottom
           const firstItem = items.shift();
           list.appendChild(firstItem);
           items.push(firstItem);
 
-          // Reset offset instantly
           list.style.transform = "translateY(0px)";
-          
-          // Re-apply correct active class for position 3 (index 2)
           updateActiveClasses();
-        }, 500);
+        }, 600);
       }
 
-      // Initial active state setup
       updateActiveClasses();
-
-      // Scroll interval set to every 2 seconds
       setInterval(rollNext, 2000);
     });
   </script>
