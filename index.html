@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>document.documentElement.classList.add('js')</script>
 <title>Morrison | Awnings</title>
 <meta name="description" content="Morrison designs awnings that enhance your storefront while providing weather protection and increased visibility.">
 <meta name="theme-color" content="#ffffff">
@@ -25,6 +26,8 @@
   --paper:#fff;
   --mute:#d6d6d6;
   --pad:clamp(20px,2.5vw,50px);
+  --sec:clamp(40px,4.5vw,88px);          /* vertical padding of every section (top and bottom) */
+  --top:clamp(104px,10vw,190px);         /* clears the fixed header */
   --f-head:'Anton',Impact,'Arial Narrow',sans-serif;
   --f-body:'Poppins',system-ui,-apple-system,'Segoe UI',sans-serif;
   --f-logo:'Bodoni Moda','Didot','Times New Roman',serif;
@@ -50,9 +53,9 @@ button{font:inherit;border:0;cursor:pointer}
 
 /* ===== HERO ===== */
 .hero{--fs:clamp(24px,2vw,44px);--row:calc(var(--fs)*1.95);
-  min-height:100vh;min-height:100svh;display:grid;grid-template-columns:62fr 38fr;align-items:center;padding:110px 0 60px}
+  display:grid;grid-template-columns:62fr 38fr;align-items:center;padding:var(--top) 0 var(--sec)}
 .hero-main{padding-left:5.5vw}
-.hero-title{margin:0;font-family:var(--f-head);font-weight:400;font-size:11.5vw;line-height:1;text-transform:uppercase;letter-spacing:0}
+.hero-title{margin:0;font-family:var(--f-head);font-weight:400;font-size:1em;line-height:1;text-transform:uppercase;letter-spacing:0}
 .hero-sub{margin:1.2vw 0 0 .2vw;max-width:46vw;font-size:clamp(14px,1.1vw,24px);font-weight:500;line-height:1.35}
 
 .hero-roll{position:relative;margin-left:.6vw;padding-left:max(34px,2.5vw);height:calc(var(--row)*5);overflow:hidden;font-size:var(--fs)}
@@ -63,13 +66,49 @@ button{font:inherit;border:0;cursor:pointer}
 .hero-list .on a{color:var(--ink)}
 
 @media (max-width:820px){
-  .hero{--fs:clamp(18px,5.1vw,26px);--row:calc(var(--fs)*1.6);display:flex;flex-direction:column;justify-content:center;gap:clamp(36px,10vw,64px);padding:100px 0 60px}
+  .hero{--fs:clamp(18px,5.1vw,26px);--row:calc(var(--fs)*1.6);display:flex;flex-direction:column;justify-content:center;gap:clamp(28px,8vw,56px);padding:var(--top) 0 var(--sec)}
   .hero-main{padding:0 20px;text-align:center}
-  .hero-title{font-size:clamp(64px,26.5vw,200px)}
+  .hero-push{font-size:clamp(64px,26.5vw,200px);--sw:.72em;margin-inline:auto}
   .hero-sub{margin:4vw auto 0;max-width:34em;font-size:clamp(11px,2.9vw,16px)}
   .hero-roll{margin:0;padding-left:calc(var(--fs)*1.7);align-self:center;width:calc(var(--w,60vw) + var(--fs)*1.7);max-width:100%}
   .hdr-actions .btn{display:none}   /* Let's Chat hidden on mobile */
 }
+/* ===== HERO INTRO: stickman pushes the headline in ===== */
+.hero-push{--sw:.82em;position:relative;display:block;width:fit-content;font-size:11.5vw;will-change:transform}
+.stick{position:absolute;bottom:calc(.075em - var(--sw)*.0615);left:calc(var(--sw)*-.769);width:var(--sw);overflow:visible;pointer-events:none}
+.js .hero-push{opacity:0}
+.js .hero-sub{opacity:0;transition:opacity .9s ease}
+.js .hero-sub.in{opacity:1}
+
+/* ===== HERO BIRD (test) ===== */
+.hero{position:relative;overflow-x:clip}
+.hero-bird{position:absolute;left:0;top:0;z-index:3;width:clamp(56px,6vw,110px);pointer-events:none;will-change:transform;visibility:hidden}
+.hero-bird svg{display:block;width:100%;height:auto;overflow:visible}
+.hero-bird .wing{transform-origin:46px 32px;animation:flap .32s ease-in-out infinite alternate}
+.hero-bird .back{fill:#6b6b6b;animation-delay:-.12s}
+@keyframes flap{from{transform:scaleY(1)}to{transform:scaleY(-.65)}}
+@media (prefers-reduced-motion:reduce){.hero-bird{display:none}}
+
+/* ===== SHOP AWNINGS ===== */
+.shop{padding:var(--sec) 0}
+.shop-wrap{container-type:inline-size;width:min(100% - 2*var(--pad),max(1000px,50vw));margin-inline:auto}
+.shop-title{margin:0;font-size:clamp(28px,4cqw,44px);font-weight:400;line-height:1.2}
+.shop-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px 24px;margin-top:clamp(6px,1.2cqw,14px)}
+.shop-bar p{margin:0;font-size:clamp(15px,2.2cqw,24px);font-weight:500;line-height:1.4}
+.shop-grid{display:grid;grid-template-columns:329fr 314fr 314fr;grid-template-rows:263fr 415fr;gap:2cqw;aspect-ratio:998/698;margin-top:clamp(28px,5cqw,56px)}
+.shop-tile{position:relative;margin:0;overflow:hidden;border-radius:clamp(12px,1.6cqw,18px);background:#959595}
+.shop-tile>img,.shop-tile>video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.shop-tile--tall{grid-column:1;grid-row:1/3}
+.shop-tile--wide{grid-column:2/4;grid-row:1}
+.shop-tile--red{background:var(--red)}
+@media (max-width:700px){
+  .shop-bar{flex-direction:column;align-items:flex-start}
+  .shop-grid{grid-template-columns:1fr 1fr;grid-template-rows:none;aspect-ratio:auto;gap:12px}
+  .shop-tile--wide{grid-column:1/-1;aspect-ratio:2.2}
+  .shop-tile--tall{grid-row:2/4}
+  .shop-tile--sm{grid-column:2;aspect-ratio:1/1.15}
+}
+
 /* ===== MENU ===== */
 .hdr.is-open{background:none;box-shadow:none;backdrop-filter:none;padding-block:clamp(18px,2.2vw,44px)}
 .hdr.is-open .hdr-logo{color:#fff}
@@ -154,12 +193,43 @@ button{font:inherit;border:0;cursor:pointer}
 <main>
   <section class="hero" id="hero">
     <div class="hero-main">
-      <h1 class="hero-title">Awnings</h1>
+      <div class="hero-push" id="push">
+        <h1 class="hero-title">Awnings</h1>
+        <svg class="stick" id="stick" viewBox="-60 -110 130 118" aria-hidden="true"></svg>
+      </div>
       <p class="hero-sub">Designed To Enhance The Appearance Of Your Storefront While Providing Practical Benefits Such As Weather Protection And Increased Visibility.</p>
     </div>
     <nav class="hero-roll" id="roll" aria-label="Shop awnings">
       <ul class="hero-list" id="rollList"></ul>
     </nav>
+    <div class="hero-bird" id="bird" aria-hidden="true">
+      <svg viewBox="0 0 100 60">
+        <path class="wing back" d="M30 32Q24 8 44 4Q42 24 50 32Z"/>
+        <path d="M6 37L26 32L26 41Z" fill="#292929"/>
+        <ellipse cx="45" cy="34" rx="24" ry="9" fill="#292929"/>
+        <circle cx="70" cy="28" r="7" fill="#292929"/>
+        <path d="M76 26L90 29.5L76 32Z" fill="#E74240"/>
+        <circle cx="72" cy="26" r="1.4" fill="#fff"/>
+        <path class="wing" d="M38 32Q30 4 54 0Q50 22 58 32Z" fill="#292929"/>
+      </svg>
+    </div>
+  </section>
+
+  <section class="shop" id="shop">
+    <div class="shop-wrap">
+      <h2 class="shop-title">Shop Awnings</h2>
+      <div class="shop-bar">
+        <p>Designed To Enhance The Appearance Of Your Storefront.</p>
+        <a class="btn" href="contact.html">Let’s Chat</a>
+      </div>
+      <!-- To add media, put <img src="..." alt="..."> or <video src="..." autoplay muted loop playsinline></video> inside any tile. It fills the tile automatically. -->
+      <div class="shop-grid">
+        <figure class="shop-tile shop-tile--tall"></figure>
+        <figure class="shop-tile shop-tile--wide"></figure>
+        <figure class="shop-tile shop-tile--sm shop-tile--red"></figure>
+        <figure class="shop-tile shop-tile--sm"></figure>
+      </div>
+    </div>
   </section>
 </main>
 
@@ -246,6 +316,167 @@ button{font:inherit;border:0;cursor:pointer}
     }, SLIDE);
   }
   setTimeout(cycle, HOLD);
+
+  /* ===== HERO INTRO: stickman pushes the headline in, wipes his brow, sits down ===== */
+  let seen = true;
+  new IntersectionObserver(([e]) => seen = e.isIntersecting).observe(document.getElementById('hero'));
+  (() => {
+    const push = document.getElementById('push'), svg = document.getElementById('stick'), sub = document.querySelector('.hero-sub');
+    const still = matchMedia('(prefers-reduced-motion:reduce)').matches;
+    /* timing (ms) */
+    const D0 = 1000, PU = 5200, GL = 420;                                   // start delay, push, glide after release
+    const T = {beat:450, calm:1100, rest:2300, up:2450, squat:3000, plop:3350, sit:3800};   // after release
+    const SL = 36, FWD = 21, BACK = 20.8, HX = 41.5;                        // stride, stance reach, hand x on the text
+    const L1 = 21, TORSO = 28, HR = 13.5, ARM = 17, INK = '#292929';
+    const R = d => d * Math.PI / 180, cl = (k, a = 0, b = 1) => Math.max(a, Math.min(b, k)), lerp = (a, b, k) => a + (b - a) * k;
+    const ss = (a, b, x) => { const k = cl((x - a) / (b - a)); return k * k * (3 - 2 * k); };
+    const io = k => k < .5 ? 4*k*k*k : 1 - Math.pow(-2*k + 2, 3) / 2;
+
+    /* --- build the SVG once --- */
+    const NS = 'http://www.w3.org/2000/svg';
+    const el = (tag, at, par) => { const e = document.createElementNS(NS, tag); for (const k in at) e.setAttribute(k, at[k]); (par || svg).appendChild(e); return e; };
+    const shadow = el('ellipse', {cy:1.4, ry:2.3, rx:20, fill:'rgba(41,41,41,.11)'});
+    const root = el('g', {});
+    const ink = el('g', {fill:'none', stroke:INK, 'stroke-width':2.6, 'stroke-linecap':'round', 'stroke-linejoin':'round'}, root);
+    const legB = el('path', {}, ink), armB = el('path', {}, ink), torso = el('path', {}, ink), legA = el('path', {}, ink);
+    const head = el('circle', {r:HR, fill:'#fff'}, ink), armA = el('path', {}, ink), face = el('g', {}, root);
+    const eyes = [3.6, 9.8].map(x => el('ellipse', {cx:x, cy:-1.8, rx:1.45, ry:1.45, fill:INK}, face));
+    const mouth = el('path', {fill:'none', stroke:INK, 'stroke-width':1.5, 'stroke-linecap':'round'}, face), mouthO = el('ellipse', {cx:7.6, cy:6, rx:1.5, ry:1.5, fill:INK}, face);
+    const handB = el('circle', {r:3.1, fill:INK}, root), handA = el('circle', {r:3.1, fill:INK}, root);
+    const fx = Array.from({length:16}, () => el('circle', {r:1, opacity:0}, svg));
+
+    /* --- rig: two-bone IK for legs and arms, ground contact comes from the foot targets --- */
+    const ik = (a, t, l, pref) => {
+      let dx = t[0] - a[0], dy = t[1] - a[1], d = Math.hypot(dx, dy); const m = 2*l - .02;
+      if (d > m) { dx *= m / d; dy *= m / d; d = m; }
+      d = Math.max(d, .5); const x = d / 2, h = Math.sqrt(Math.max(0, l*l - x*x)), ux = dx / d, uy = dy / d;
+      const c1 = [a[0] + ux*x - uy*h, a[1] + uy*x + ux*h], c2 = [a[0] + ux*x + uy*h, a[1] + uy*x - ux*h];
+      const s = p => (p[0] - a[0]) * pref[0] + (p[1] - a[1]) * pref[1];
+      return [a, s(c1) >= s(c2) ? c1 : c2, [a[0] + dx, a[1] + dy]];
+    };
+    const f1 = n => n.toFixed(1), pt = p => f1(p[0]) + ' ' + f1(p[1]);
+    const limb = ([a, b, c]) => { const m = (p, q) => [(p[0] + q[0]) / 2, (p[1] + q[1]) / 2]; return `M${pt(a)}L${pt(m(a, b))}Q${pt(b)} ${pt(m(b, c))}L${pt(c)}`; };
+    const geo = S => {
+      const lr = R(S.lean), td = [Math.sin(lr), -Math.cos(lr)], hip = [S.hx, S.hy];
+      const at = (o, d, l) => [o[0] + d[0] * l, o[1] + d[1] * l];
+      const neck = at(hip, td, TORSO), sh = at(hip, td, TORSO * .86), ha = R(S.lean + S.head), hc = at(neck, [Math.sin(ha), -Math.cos(ha)], HR);
+      const leg = f => { const a = R(f[2]), L = ik(hip, [f[0], f[1]], L1, [1, -.6]); return {d:limb(L) + `M${pt([f[0] - 1.2*Math.cos(a), f[1] - 1.2*Math.sin(a)])}L${pt([f[0] + 8*Math.cos(a), f[1] + 8*Math.sin(a)])}`}; };
+      return {hip, neck, sh, hc, hang:S.lean + S.head, la:leg(S.fA), lb:leg(S.fB), aa:ik(sh, S.hA, ARM, [-.35, 1]), ab:ik(sh, S.hB, ARM, [-.35, 1])};
+    };
+
+    /* --- poses: legs/feet/hands are absolute targets (ground y = 0, x grows forward) --- */
+    const P = o => Object.assign({hx:0, hy:-40, lean:4, head:0, fA:[7, 0, 0], fB:[-4, 0, 0], hA:[5, -33.5], hB:[-2, -34], ey:1, ex:1, mc:.4, mo:0}, o);
+    const STAND = P({}), BEAT = P({lean:9, head:14, mc:0, mo:.6, ey:.5});
+    const ANTIC = P({hy:-41, lean:-2, head:-4, hA:[2, -33], hB:[-4, -33], mc:0, ey:.7});
+    const SQUAT = P({hx:-2, hy:-23, lean:36, head:-14, fA:[15, 0, 0], fB:[6, 0, 0], hA:[17, -3], hB:[24, -2], mc:-.3, ey:.7});
+    const SITLOW = P({hx:-1, hy:-3, lean:28, head:14, fA:[26, 0, 0], fB:[31, 0, 0], hA:[29, -13], hB:[35, -9], mc:-.8, ey:.55});
+    const SIT = P({hx:-1, hy:-3, lean:21, head:24, fA:[26, 0, 0], fB:[31, 0, 0], hA:[29, -13], hB:[35, -9], mc:-.9, ey:.5});
+    const ST = .58, foot = c => {                      // one foot of the push gait: planted in the world during stance, arcs forward during swing
+      const u = c - Math.floor(c);
+      if (u < ST) { const s = u / ST, a = lerp(-10, 0, ss(0, .15, s)) + 48 * ss(.72, 1, s); return [FWD - (FWD + BACK) * s, -Math.max(0, 8 * Math.sin(R(a))), a]; }
+      const s = (u - ST) / (1 - ST);
+      return [-BACK + (FWD + BACK) * ss(0, 1, s), -5.9 * (1 - s) - 11 * Math.sin(Math.PI * s), lerp(48, -10, ss(0, .8, s))];
+    };
+    const pushPose = (X, tau) => {
+      const c = X / (2 * SL), w = 4 * Math.PI * c, lean = 22 + 2.5 * ss(0, .1, tau) + .8 * Math.sin(w);
+      return P({hy:-(34 - 1.5 * Math.cos(w)), lean, head:-lean * .55, fA:foot(c), fB:foot(c + .5), hA:[HX, -52 + 1.1 * Math.sin(w)], hB:[HX, -50.5 + 1.1 * Math.sin(w + 1.5)], ey:.3, ex:1.35, mc:-.7, mo:0});
+    };
+    const CH = {hx:0, hy:0, fA:0, fB:0, lean:.06, head:.16, hA:.14, hB:.2, ey:.1, ex:.1, mc:.1, mo:.1};   // per-part delay = overlapping action
+    const mix = (a, b, k, e = io) => { const o = {}; for (const n in CH) { const q = e(cl((k - CH[n]) / (1 - CH[n]))); o[n] = Array.isArray(a[n]) ? a[n].map((v, i) => lerp(v, b[n][i], q)) : lerp(a[n], b[n], q); } return o; };
+    const KEYS = [[0, null], [T.beat, BEAT], [T.calm, BEAT], [T.calm + 200, STAND], [T.rest, STAND], [T.up, ANTIC], [T.squat, SQUAT], [T.plop, SITLOW], [T.sit, SIT]];
+    const EASE = {[T.squat]:k => k * k};                // falling into the seat accelerates
+
+    /* --- push progress: accelerate, cruise, slow, then glide to rest (distance is exact) --- */
+    let dist = 0, upp = 1, start = 0, cum = [0], N = Math.ceil((PU + GL) / 16);
+    const buildCum = () => { cum = [0]; for (let i = 1; i <= N; i++) { const t = (i - .5) * 16, x = t / PU; cum.push(cum[i - 1] + (t < PU ? ss(0, .18, x) * (1 - .72 * ss(.82, 1, x)) : .28 * (.5 + .5 * Math.cos(Math.PI * cl((t - PU) / GL))))); } };
+    const prog = t => { const x = cl((t - D0) / (PU + GL)) * N, i = Math.floor(x); return i >= N ? 1 : lerp(cum[i], cum[i + 1], x - i) / cum[N]; };
+
+    /* --- particles: dust, sweat, breath (world-anchored, so they stay behind when the text moves) --- */
+    const parts = []; let pi = 0;
+    const spawn = (x, y, o, X, now) => { const p = Object.assign({wx:x + X, y, vx:0, vy:0, g:0, r0:1.2, r1:2.6, t0:now, life:600, fill:'#cfcfcf', op:.7, e:fx[pi++ % fx.length]}, o); p.e.setAttribute('fill', p.fill); parts.push(p); };
+    const drawParts = (now, X) => { for (let i = parts.length - 1; i >= 0; i--) { const p = parts[i], a = (now - p.t0) / 1000, k = a * 1000 / p.life;
+      if (k >= 1) { p.e.setAttribute('opacity', 0); parts.splice(i, 1); continue; }
+      p.e.setAttribute('cx', f1(p.wx + p.vx * a - X)); p.e.setAttribute('cy', f1(p.y + p.vy * a + .5 * p.g * a * a)); p.e.setAttribute('r', f1(lerp(p.r0, p.r1, k))); p.e.setAttribute('opacity', f1(p.op * (1 - k))); } };
+
+    let cA = 0, cB = 0, lastSweat = 0, did = {};
+    const render = now => {
+      const t = now - start, Pn = prog(t), X = Pn * dist * upp, u = t - (D0 + PU + GL), tau = cl((t - D0) / PU);
+      push.style.transform = `translateX(${f1(-dist * (1 - Pn))}px)`; push.style.opacity = 1;
+      let pose, sq = 0, wipe = 0;
+      if (u < 0) pose = pushPose(X, tau);
+      else {
+        let i = 0; while (i < KEYS.length - 2 && u >= KEYS[i + 1][0]) i++;
+        const [t0, a] = KEYS[i], [t1, b] = KEYS[i + 1], k = cl((u - t0) / (t1 - t0));
+        pose = mix(a || pushPose(X, 1), b, k, EASE[t1]);
+        wipe = ss(T.calm + 150, T.calm + 450, u) * (1 - ss(T.rest - 350, T.rest - 50, u));
+        const sit = ss(T.sit - 400, T.sit + 300, u), idle = still ? 0 : cl((u - T.sit) / 400);
+        if (u > T.plop && !still) { const a2 = u - T.plop; sq = a2 < 700 ? .075 * Math.exp(-a2 / 120) * Math.cos(a2 / 45) : 0; }
+        pose.lean += (u < T.sit ? 1.6 * ss(T.beat, T.beat + 200, u) * (1 - ss(T.calm, T.calm + 200, u)) : 0) * Math.sin(t / 110) + idle * 1.3 * Math.sin(t / 413);
+        pose.head += idle * 2 * Math.sin(t / 413 + 1);
+        if (!still) {
+          if (!did.r && u > 0) { did.r = 1; for (let n = 0; n < 2; n++) spawn(12 + n * 3, -62 - n * 3, {vx:-9, vy:-7, r0:1.5, r1:4, life:900, op:.35, fill:'#9a9a9a'}, X, now); }
+          if (!did.e && u > T.rest - 100) { did.e = 1; for (let n = 0; n < 2; n++) spawn(11 + n * 3, -64 - n * 3, {vx:-9, vy:-8, r0:1.5, r1:4.5, life:1000, op:.35, fill:'#9a9a9a'}, X, now); }
+          if (!did.p && u > T.plop) { did.p = 1; [[-8, -10], [14, 14], [28, 12]].forEach(([x, vx]) => spawn(x, -1.5, {vx, vy:-6, g:-8, r0:2, r1:6, life:700, op:.5}, X, now)); }
+          if (idle && now - lastSweat > 4200) { lastSweat = now; spawn(5, -34, {vx:2, vy:-6, g:70, r0:1.5, r1:1.2, life:900, op:.9, fill:'#8fb8d8'}, X, now); }
+        }
+      }
+      if (u < 0 && !still && t > D0) {                                     // dust at each heel strike, sweat flying off
+        const a = Math.floor(X / (2 * SL)), b = Math.floor(X / (2 * SL) + .5);
+        if (a > cA) spawn(FWD - 3, -1, {vx:-14, vy:-5, r0:1.4, r1:4, life:520, op:.55}, X, now);
+        if (b > cB) spawn(FWD - 3, -1, {vx:-14, vy:-5, r0:1.4, r1:4, life:520, op:.55}, X, now);
+        cA = a; cB = b;
+        if (now - lastSweat > 650) { lastSweat = now; spawn(-2, -72, {vx:-26, vy:-16, g:120, r0:1.6, r1:1.2, life:800, op:.95, fill:'#8fb8d8'}, X, now); }
+      }
+      const g = geo(pose);
+      if (wipe > 0) {                                                       // right hand wipes the forehead
+        const ha = R(g.hang), c = Math.cos(ha), s = Math.sin(ha), ox = 6 + 3 * Math.sin(t / 95), oy = -9;
+        const tgt = [g.hc[0] + ox * c - oy * s, g.hc[1] + ox * s + oy * c], h = pose.hA;
+        g.aa = ik(g.sh, [lerp(h[0], tgt[0], wipe), lerp(h[1], tgt[1], wipe)], ARM, [-.35, 1]); pose.ey *= 1 - .85 * wipe;
+      }
+      let blink = 1; const bt = (now % 3600); if (!still && u > T.sit && bt < 140) blink = .12; else if (!still && t > D0 && bt > 3500 && bt < 3600) blink = .5;
+      legB.setAttribute('d', g.lb.d); legA.setAttribute('d', g.la.d); torso.setAttribute('d', `M${pt(g.hip)}L${pt(g.neck)}`);
+      armB.setAttribute('d', limb(g.ab)); armA.setAttribute('d', limb(g.aa));
+      head.setAttribute('cx', f1(g.hc[0])); head.setAttribute('cy', f1(g.hc[1]));
+      face.setAttribute('transform', `translate(${f1(g.hc[0])} ${f1(g.hc[1])}) rotate(${f1(g.hang)})`);
+      eyes.forEach(e => { e.setAttribute('rx', f1(1.45 * pose.ex)); e.setAttribute('ry', f1(Math.max(.25, 1.45 * pose.ey * blink))); });
+      const mo = cl(pose.mo, 0, 1); mouth.setAttribute('d', `M4.6 5.4Q7.4 ${f1(5.4 + pose.mc * 2.4)} 10 5.4`); mouth.setAttribute('opacity', f1(1 - cl(mo * 3)));
+      mouthO.setAttribute('rx', f1(1.1 + mo)); mouthO.setAttribute('ry', f1(.2 + mo * 2.2)); mouthO.setAttribute('opacity', f1(cl(mo * 3)));
+      const ea = g.aa[2], eb = g.ab[2]; handA.setAttribute('cx', f1(ea[0])); handA.setAttribute('cy', f1(ea[1])); handB.setAttribute('cx', f1(eb[0])); handB.setAttribute('cy', f1(eb[1]));
+      shadow.setAttribute('cx', f1(pose.hx + 8)); root.setAttribute('transform', sq ? `translate(${f1(pose.hx)} 0) scale(${f1(1 + sq * .6)} ${f1(1 - sq)}) translate(${f1(-pose.hx)} 0)` : '');
+      drawParts(now, X);
+      if (u > -400 && !did.s) { did.s = 1; sub.classList.add('in'); }
+    };
+    if (still) { dist = 0; upp = 1; start = -1e5; buildCum(); render(0); sub.classList.add('in'); return; }
+    dist = push.getBoundingClientRect().right + 30; upp = 130 / svg.getBoundingClientRect().width; buildCum();
+    const loop = now => { requestAnimationFrame(loop); if (seen) render(now); };
+    requestAnimationFrame(now => { start = now; loop(now); });
+  })();
+
+  /* ===== HERO BIRD (test): path points are fractions of the hero box [x, y]; values outside 0-1 are off-screen ===== */
+  const hero = document.getElementById('hero'), bird = document.getElementById('bird');
+  if (!matchMedia('(prefers-reduced-motion:reduce)').matches) {
+    const P = [[-.12,.78],[.10,.62],[.26,.30],[.48,.16],[.70,.30],[.86,.12],[1.12,-.12]]; // enters left, curves over AWNINGS, exits top right
+    const DUR = 9000, GAP = 2500;   // flight time, pause before next flight (ms)
+    const n = P.length - 1, g = k => P[Math.max(0, Math.min(n, k))];
+    const cr = (a,b,c,d,t) => .5*(2*b + (-a+c)*t + (2*a-5*b+4*c-d)*t*t + (-a+3*b-3*c+d)*t*t*t);
+    const at = u => {
+      const f = u*n, i = Math.min(Math.floor(f), n-1), t = f - i, a = g(i-1), b = g(i), c = g(i+1), d = g(i+2);
+      return [cr(a[0],b[0],c[0],d[0],t), cr(a[1],b[1],c[1],d[1],t)];
+    };
+    const t0 = performance.now() + 11500;   // starts after the stickman intro
+    const frame = now => {
+      requestAnimationFrame(frame);
+      if (!seen || now < t0) return;
+      const el = (now - t0) % (DUR + GAP);
+      if (el > DUR) { bird.style.visibility = 'hidden'; return; }
+      const W = hero.clientWidth, H = hero.clientHeight, k = el / DUR;
+      const u = .5 - Math.cos(Math.PI * k) / 2, p = at(u), q = at(Math.min(1, u + .01));
+      const ang = Math.max(-25, Math.min(25, Math.atan2((q[1]-p[1])*H, (q[0]-p[0])*W) * 180 / Math.PI));
+      bird.style.transform = `translate(${p[0]*W - bird.offsetWidth/2}px,${p[1]*H - bird.offsetHeight/2}px) rotate(${ang}deg)`;
+      bird.style.visibility = 'visible';
+    };
+    requestAnimationFrame(frame);
+  }
 })();
 </script>
 </body>
